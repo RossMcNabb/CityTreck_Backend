@@ -18,7 +18,7 @@ app.get("/", (req,res)=>{
 
 })
 app.post("/",(req,res) =>{
-const sqlInsert = "INSERT INTO pubs_bars_restaurants (name,City) VALUES ('Lerpwl','Liverpool');"
+const sqlInsert = "INSERT INTO pubs_bars_restaurants (name,City) VALUES ('Maray','Liverpool');"
 db.query(sqlInsert, (err, result)=>{
     if (err) throw err;
     console.log(result);
