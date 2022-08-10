@@ -17,13 +17,7 @@ app.get("/", (req,res)=>{
  res.send("Hell0")
 
 })
-app.post("/",(req,res) =>{
-const sqlInsert = "INSERT INTO pubs_bars_restaurants (name,City) VALUES ('Maray','Liverpool');"
-db.query(sqlInsert, (err, result)=>{
-    if (err) throw err;
-    console.log(result);
-})
-});
+
 
 app.listen(3001,()=>{
     console.log("running on port 3001")
