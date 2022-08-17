@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const mysql = require("mysql");
+const axios = require("axios");
 
 const db = mysql.createPool({
   host: "database-1.crurl47d1sgo.eu-west-2.rds.amazonaws.com",
