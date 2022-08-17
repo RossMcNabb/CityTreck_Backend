@@ -11,7 +11,6 @@ module.exports = ({
 }) => {
   router.post("/getCityData", async (req, res) => {
     const cityName = req.body.userInput;
-    // const googleApi = // add google api link ...
   });
 
   const { latitude, longitude } = cityData.attributes;
@@ -20,7 +19,6 @@ module.exports = ({
     if (item.user_ratings_total > 100) {
       const { name, formatted_address, rating } = item;
       const { lat, lng } = item.geometry.location;
-      //   const response = await axios.get(// add google api location);
 
       addAttractions(name, formatted_address, lat, lng, rating, addedCity.id);
     }
@@ -29,9 +27,9 @@ module.exports = ({
   router.get("/:id", async (req, res) => {
     const cityName = req.params.id;
     const matchedCity = await getCity(cityName);
-    // if the city doesnt exist in the DB return error
+    // if the city doesn't exist in the DB return error
     if (matchedCity === null) {
-      return res.json(null);
+      console.log(error);
     }
     // if city exist, then grab all the data( details, attraction) for the city
     const allData = {};
@@ -43,5 +41,5 @@ module.exports = ({
     allData.cityDetails = fetchedData[0];
     allData.attractions = fetchedData;
   });
-  return router;
+  return allData;
 };
