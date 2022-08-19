@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require ('body-parser')
+
+const cors = require ('cors')
 const app = express();
 const mysql = require("mysql");
 
@@ -15,24 +17,26 @@ db.getConnection(function (err) {
   if (err) throw err;
   console.log("connection successful");
 });
-
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hell0");
 });
 
-app.get("/api/get", (req, res) => {
+app.get("/pathway", (req, res) => {
   
-  const city = "Manchester"
-  const restType = "Bar"
-  const cuisine = "European"
-  const mobility ="Meduim"
+  const city = req.query.city
+  //const restaurantType = req.query.restaurantType
+  //const cuisine = req.query.cuisine
+  //const mobility = req.query.mobility
 
-  const sqlSelect = "SELECT * FROM eating_and_drinking where city=? and restaurant_type=?";
+  const sqlSelect = "SELECT * FROM eating_and_drinking where city=?";
 
-  db.query(sqlSelect, [city, restType, cuisine, mobility],(err,result) => {
+  db.query(sqlSelect, [city],(err,result) => {
     
    if (err) throw err;
-    res.send(result);
+    console.log(result);
 
 
   });
