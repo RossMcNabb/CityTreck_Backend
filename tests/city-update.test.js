@@ -9,9 +9,9 @@ describe("update city", () => {
   beforeEach(async () => {
     db = await getDb();
     await Promise.all([
-      db.query("INSERT INTO city (name) VALUES(?)", ["Tame Impala"]),
-      db.query("INSERT INTO city (name) VALUES(?)", ["Kylie Minogue"]),
-      db.query("INSERT INTO city (name) VALUES(?)", ["Dave Brubeck"]),
+      db.query("INSERT INTO city (name) VALUES(?)", ["Glasgow"]),
+      db.query("INSERT INTO city (name) VALUES(?)", ["Liverpool"]),
+      db.query("INSERT INTO city (name) VALUES(?)", ["London"]),
     ]);
 
     [city] = await db.query("SELECT * FROM city");
