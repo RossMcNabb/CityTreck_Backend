@@ -1,11 +1,12 @@
 const { expect } = require("chai");
 const request = require("supertest");
-const getDb = require("../src/services/db");
-const app = require("../src/app");
+// const getDb = require("../src/services/db");
+// const app = require("../src/app");
 
 describe("read attraction", () => {
   let db;
   let attraction;
+  
   [attraction] = db.query("SELECT * from attraction");
 });
 
