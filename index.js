@@ -1,7 +1,7 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
 const mysql = require("mysql");
-const axios = require("axios");
 
 const db = mysql.createPool({
   host: "database-1.crurl47d1sgo.eu-west-2.rds.amazonaws.com",
@@ -15,8 +15,23 @@ db.getConnection(function (err) {
   console.log("connection successful");
 });
 
-app.get("/attraction/{city}", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Hell0");
+});
+
+app.get("/api/get", (req, res) => {
+  const city = "Manchester";
+  const restType = "Bar";
+  const cuisine = "European";
+  const mobility = "Medium";
+
+  const sqlSelect =
+    "SELECT * FROM eating_and_drinking where city=? and restaurant_type=?";
+
+  db.query(sqlSelect, [city, restType, cuisine, mobility], (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
 });
 
 app.listen(3001, () => {
