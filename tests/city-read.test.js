@@ -7,54 +7,44 @@ describe("read city", () => {
   let db;
   let city;
 
-  // beforeEach(async () => {
-  //   db = await getDb();
-  //   await Promise.all([
-  //     db.query("INSERT INTO city (name) VALUES(?)", ["Birmingham"]),
-  //     db.query("INSERT INTO city (name) VALUES(?)", ["Manchester"]),
-  //     db.query("INSERT INTO city (name) VALUES(?)", ["London"]),
-  //   ]);
+  [city] = db.query("SELECT * from city");
+});
 
-    [city] = await db.query("SELECT * from city");
-  });
+afterEach(async () => {
+  await db.close();
+});
 
-  afterEach(async () => {
-  //   await db.query("DELETE FROM city");
-    await db.close();
-  });
+describe("/city", () => {
+  describe("GET", () => {
+    it("returns all city records in the database", async () => {
+      const res = await request(app).get("/city").send();
 
-  describe("/city", () => {
-    describe("GET", () => {
-      it("returns all city records in the database", async () => {
-        const res = await request(app).get("/city").send();
+      expect(res.status).to.equal(200);
+      expect(res.body.length).to.equal(3);
 
-        expect(res.status).to.equal(200);
-        expect(res.body.length).to.equal(3);
+      res.body.forEach((cityRecord) => {
+        const expected = city.find((a) => a.id === cityRecord.id);
 
-        res.body.forEach((cityRecord) => {
-          const expected = city.find((a) => a.id === cityRecord.id);
-
-          expect(cityRecord).to.deep.equal(expected);
-        });
+        expect(cityRecord).to.deep.equal(expected);
       });
     });
   });
+});
 
-  describe("/city/:cityId", () => {
-    describe("GET", () => {
-      it("returns a single city with the correct id", async () => {
-        const expected = cities[0];
-        const res = await request(app).get(`/city/${expected.id}`).send();
+describe("/city/:cityId", () => {
+  describe("GET", () => {
+    it("returns a single city with the correct id", async () => {
+      const expected = cities[0];
+      const res = await request(app).get(`/city/${expected.id}`).send();
 
-        expect(res.status).to.equal(200);
-        expect(res.body).to.deep.equal(expected);
-      });
+      expect(res.status).to.equal(200);
+      expect(res.body).to.deep.equal(expected);
+    });
 
-      it("returns a 404 if the city is not in the database", async () => {
-        const res = await request(app).get("/city/999999").send();
+    it("returns a 404 if the city is not in the database", async () => {
+      const res = await request(app).get("/city/999999").send();
 
-        expect(res.status).to.equal(404);
-      });
+      expect(res.status).to.equal(404);
     });
   });
-
+});
