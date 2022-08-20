@@ -24,16 +24,18 @@ app.get("/", (req, res) => {
   res.send("Hell0");
 });
 
+
 app.get("/pathway", (req, res) => {
   
   const city = req.query.city
-  //const restaurantType = req.query.restaurantType
+  const restaurantType = req.query.restaurantType
   //const cuisine = req.query.cuisine
-  //const mobility = req.query.mobility
+  const mobility = req.query.mobility
 
-  const sqlSelect = "SELECT * FROM eating_and_drinking where city=?";
 
-  db.query(sqlSelect, [city],(err,result) => {
+  const sqlSelect = "SELECT * FROM eating_and_drinking where city=? and restaurant_type=? and mobility_level=?";
+
+  db.query(sqlSelect, [city,mobility,restaurantType],(err,result) => {
     
    if (err) throw err;
     console.log(result);
