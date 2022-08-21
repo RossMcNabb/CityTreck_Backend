@@ -18,7 +18,7 @@ module.exports = ({ getCity, getAttractions, addVisit }) => {
     }
   });
 
-  router.get("/city", async (req, res) => {
+  router.get("/:id", async (req, res) => {
     const cityName = req.params.id;
     const matchedCity = await getCity(cityName);
     if (matchedCity === null) {
