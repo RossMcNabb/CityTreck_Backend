@@ -25,37 +25,45 @@ app.get("/", (req, res) => {
 });
 
 app.get("/pathway", (req, res) => {
-
-  var data =[];
+  var data = [];
 
   const city = req.query.city;
   const restaurantType = req.query.restaurantType;
-  const attractionType = req.query.attractionType
+  const attractionType = req.query.attractionType;
   const mobility = req.query.mobility;
-  const cuisine = req.query.cuisine
+  const cuisine = req.query.cuisine;
 
-  console.log(req.query.restaurantType)
+  console.log(req.query.restaurantType);
 
   const sqlSelectEating =
-"SELECT * FROM eating_and_drinking WHERE city=? AND restaurant_type=? AND mobility_level=? and food_catergory=?";
-  const sqlSelectAttractions = "SELECT * FROM attractions WHERE city=? AND attraction_type=? AND mobility_level=?";
-   
-    db.query(sqlSelectEating, [city, restaurantType, mobility,cuisine], (err, results1) => {
+    "SELECT * FROM eating_and_drinking WHERE city=? AND restaurant_type=? AND mobility_level=? and food_catergory=?";
+  const sqlSelectAttractions =
+    "SELECT * FROM attractions WHERE city=? AND attraction_type=? AND mobility_level=?";
+
+  db.query(
+    sqlSelectEating,
+    [city, restaurantType, mobility, cuisine],
+    (err, results1) => {
       if (err) {
         throw err;
       }
       // console.log(results1);
-      data.push(results1)
-    });
-    db.query(sqlSelectAttractions, [city, attractionType, mobility], (err, results2) => {
-    if (err) {
-      throw err;
+      data.push(results1);
     }
+  );
+  db.query(
+    sqlSelectAttractions,
+    [city, attractionType, mobility],
+    (err, results2) => {
+      if (err) {
+        throw err;
+      }
 
- data.push(results2)
-console.log(data)
-res.send(data)
-});
+      data.push(results2);
+      console.log(data);
+      res.send(data);
+    }
+  );
 });
 
 app.listen(3001, () => {
