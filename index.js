@@ -1,11 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
 const cors = require("cors");
 const app = express();
-const mysql = require("mysql");
 
-const db = mysql.createPool({
+const db = require("mysql-promise")();
+
+db.configure({
   host: "database-1.crurl47d1sgo.eu-west-2.rds.amazonaws.com",
   user: "admin",
   password: "Password1",
@@ -13,10 +13,6 @@ const db = mysql.createPool({
   database: "final_project",
 });
 
-db.getConnection(function (err) {
-  if (err) throw err;
-  console.log("connection successful");
-});
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
@@ -24,7 +20,7 @@ app.get("/", (req, res) => {
   res.send("Hell0");
 });
 
-app.get("/pathway", (req, res) => {
+app.get("/pathway", async (req, res) => {
   var data = [];
 
   const city = req.query.city;
@@ -36,7 +32,7 @@ app.get("/pathway", (req, res) => {
   console.log(req.query.restaurantType);
 
   const sqlSelectEating =
-    "SELECT * FROM eating_and_drinking WHERE city=? AND restaurant_type=? AND mobility_level=? and food_catergory=?";
+    "SELECT * FROM eating_and_drinking WHERE city=? AND restaurant_type=? AND mobility_level=? and food_category=?";
   const sqlSelectAttractions =
     "SELECT * FROM attractions WHERE city=? AND attraction_type=? AND mobility_level=?";
 
@@ -51,6 +47,7 @@ app.get("/pathway", (req, res) => {
       data.push(results1);
     }
   );
+
   db.query(
     sqlSelectAttractions,
     [city, attractionType, mobility],
@@ -64,8 +61,14 @@ app.get("/pathway", (req, res) => {
       res.send(data);
     }
   );
+
+  const [results] = await db.query(sqlSelect, [city, restaurantType, mobility]);
+
+  return res.status(200).json(results);
 });
 
 app.listen(3001, () => {
   console.log("running on port 3001");
 });
+
+module.exports = app;
