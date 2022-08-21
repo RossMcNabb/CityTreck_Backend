@@ -1,50 +1,37 @@
 const { expect } = require("chai");
 const request = require("supertest");
-// const getDb = require("../src/services/db");
-// const app = require("../src/app");
+const getDb = require("../db");
+const app = require("../index");
 
 describe("read pathway", () => {
-  let db;
-  let pathway;
+  let db = getDb();
+  let pathways;
 
-  [pathway] = db.query("SELECT * from ?");
-});
-
-afterEach(async () => {
-  await db.close();
-});
-
-describe("/pathway", () => {
-  describe("GET", () => {
-    it("returns all pathway records in the database", async () => {
-      const res = await request(app).get("/pathway").send();
-
-      expect(res.status).to.equal(200);
-      expect(res.body.length).to.equal(3);
-
-      res.body.forEach((pathwayRecord) => {
-        const expected = pathway.find((a) => a.id === pathwayRecord.id);
-
-        expect(pathwayRecord).to.deep.equal(expected);
-      });
-    });
+  beforeEach(async () => {
+    [pathways] = await db.query("SELECT * from eating_and_drinking");
   });
-});
 
-describe("/pathway/:pathwayId", () => {
-  describe("GET", () => {
-    it("returns a single pathway with the correct id", async () => {
-      const expected = attraction[0];
-      const res = await request(app).get(`/attraction/${expected.id}`).send();
+  afterEach(async () => {
+    await db.end();
+  });
 
-      expect(res.status).to.equal(200);
-      expect(res.body).to.deep.equal(expected);
-    });
+  describe("/pathway", () => {
+    describe("GET", () => {
+      it("returns pathway records in the database", async () => {
+        const res = await request(app)
+          .get("/pathway")
+          .query({ city: "Birmingham", mobility: "low", restaurantType: "Bar" })
+          .send();
 
-    it("returns a 404 if the attraction is not in the database", async () => {
-      const res = await request(app).get("/attraction/999999").send();
+        expect(res.status).to.equal(200);
+        expect(res.body.length).to.equal(1);
 
-      expect(res.status).to.equal(404);
+        res.body.forEach((pathwayRecord) => {
+          const expected = pathways.find((a) => a.id === pathwayRecord.id);
+
+          expect(pathwayRecord).to.deep.equal(expected);
+        });
+      });
     });
   });
 });
