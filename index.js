@@ -36,34 +36,18 @@ app.get("/pathway", async (req, res) => {
   const sqlSelectAttractions =
     "SELECT * FROM attractions WHERE city=? AND attraction_type=? AND mobility_level=?";
 
-  db.query(
-    sqlSelectEating,
-    [city, restaurantType, mobility, cuisine],
-    (err, results1) => {
-      if (err) {
-        throw err;
-      }
-      // console.log(results1);
-      data.push(results1);
-    }
-  );
-
-  db.query(
-    sqlSelectAttractions,
-    [city, attractionType, mobility],
-    (err, results2) => {
-      if (err) {
-        throw err;
-      }
-
-      data.push(results2);
-      console.log(data);
-      res.send(data);
-    }
-  );
-
-  const [results] = await db.query(sqlSelect, [city, restaurantType, mobility]);
-
+  const [results1] = await db.query(sqlSelectEating, [
+    city,
+    restaurantType,
+    mobility,
+    cuisine,
+  ]);
+  const [results2] = await db.query(sqlSelectAttractions, [
+    city,
+    attractionType,
+    mobility,
+  ]);
+  const results = [...results1, ...results2];
   return res.status(200).json(results);
 });
 
