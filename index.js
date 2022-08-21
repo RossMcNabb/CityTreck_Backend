@@ -25,21 +25,37 @@ app.get("/", (req, res) => {
 });
 
 app.get("/pathway", (req, res) => {
+
+  var data =[];
+
   const city = req.query.city;
   const restaurantType = req.query.restaurantType;
-  //const cuisine = req.query.cuisine
+  const attractionType = req.query.attractionType
   const mobility = req.query.mobility;
+  const cuisine = req.query.cuisine
 
-  const sqlSelect =
-    "SELECT * FROM eating_and_drinking WHERE city=? AND restaurant_type=? AND mobility_level=?";
+  console.log(req.query.restaurantType)
 
-  db.query(sqlSelect, [city, restaurantType, mobility], (err, results) => {
+  const sqlSelectEating =
+"SELECT * FROM eating_and_drinking WHERE city=? AND restaurant_type=? AND mobility_level=? and food_catergory=?";
+  const sqlSelectAttractions = "SELECT * FROM attractions WHERE city=? AND attraction_type=? AND mobility_level=?";
+   
+    db.query(sqlSelectEating, [city, restaurantType, mobility,cuisine], (err, results1) => {
+      if (err) {
+        throw err;
+      }
+      // console.log(results1);
+      data.push(results1)
+    });
+    db.query(sqlSelectAttractions, [city, attractionType, mobility], (err, results2) => {
     if (err) {
       throw err;
     }
 
-    return res.status(200).json(results);
-  });
+ data.push(results2)
+console.log(data)
+res.send(data)
+});
 });
 
 app.listen(3001, () => {
