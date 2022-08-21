@@ -24,7 +24,7 @@ module.exports = ({
     }
   });
 
-  router.get("/:id", async (req, res) => {
+  router.get("/", async (req, res) => {
     const cityName = req.params.id;
     const matchedCity = await getCity(cityName);
     // if the city doesn't exist in the DB return error
