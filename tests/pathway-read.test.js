@@ -3,38 +3,38 @@ const request = require("supertest");
 // const getDb = require("../src/services/db");
 // const app = require("../src/app");
 
-describe("read attraction", () => {
+describe("read pathway", () => {
   let db;
-  let attraction;
-  
-  [attraction] = db.query("SELECT * from attraction");
+  let pathway;
+
+  [pathway] = db.query("SELECT * from ?");
 });
 
 afterEach(async () => {
   await db.close();
 });
 
-describe("/attraction", () => {
+describe("/pathway", () => {
   describe("GET", () => {
-    it("returns all attraction records in the database", async () => {
-      const res = await request(app).get("/attraction").send();
+    it("returns all pathway records in the database", async () => {
+      const res = await request(app).get("/pathway").send();
 
       expect(res.status).to.equal(200);
       expect(res.body.length).to.equal(3);
 
-      res.body.forEach((attractionRecord) => {
-        const expected = attraction.find((a) => a.id === attractionRecord.id);
+      res.body.forEach((pathwayRecord) => {
+        const expected = pathway.find((a) => a.id === pathwayRecord.id);
 
-        expect(attractionRecord).to.deep.equal(expected);
+        expect(pathwayRecord).to.deep.equal(expected);
       });
     });
   });
 });
 
-describe("/attraction/:attractionId", () => {
+describe("/pathway/:pathwayId", () => {
   describe("GET", () => {
-    it("returns a single attraction with the correct id", async () => {
-      const expected = cities[0];
+    it("returns a single pathway with the correct id", async () => {
+      const expected = attraction[0];
       const res = await request(app).get(`/attraction/${expected.id}`).send();
 
       expect(res.status).to.equal(200);
