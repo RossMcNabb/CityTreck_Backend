@@ -21,16 +21,33 @@ app.get("/", (req, res) => {
 });
 
 app.get("/pathway", async (req, res) => {
+  var data = [];
+
   const city = req.query.city;
   const restaurantType = req.query.restaurantType;
-  //const cuisine = req.query.cuisine
+  const attractionType = req.query.attractionType;
   const mobility = req.query.mobility;
+  const cuisine = req.query.cuisine;
 
-  const sqlSelect =
-    "SELECT * FROM eating_and_drinking WHERE city=? AND restaurant_type=? AND mobility_level=?";
+  console.log(req.query.restaurantType);
 
-  const [results] = await db.query(sqlSelect, [city, restaurantType, mobility]);
+  const sqlSelectEating =
+    "SELECT * FROM eating_and_drinking WHERE city=? AND restaurant_type=? AND mobility_level=? and food_category=?";
+  const sqlSelectAttractions =
+    "SELECT * FROM attractions WHERE city=? AND attraction_type=? AND mobility_level=?";
 
+  const [results1] = await db.query(sqlSelectEating, [
+    city,
+    restaurantType,
+    mobility,
+    cuisine,
+  ]);
+  const [results2] = await db.query(sqlSelectAttractions, [
+    city,
+    attractionType,
+    mobility,
+  ]);
+  const results = [...results1, ...results2];
   return res.status(200).json(results);
 });
 
