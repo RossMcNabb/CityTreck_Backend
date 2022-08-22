@@ -36,17 +36,18 @@ app.get("/pathway", (req, res) => {
 
   console.log(req.query.restaurantType[0])
 
-  const sqlSelectEating ="SELECT * FROM eating_and_drinking WHERE city=? AND mobility_level=? and food_category=? AND restaurant_type=? or ? or ?";
-  const sqlSelectAttractions = "SELECT * FROM attractions WHERE city=? AND attraction_type=? AND mobility_level=?";
+  const sqlSelectEating ="SELECT * FROM eating_and_drinking WHERE city=? AND mobility_level=? and (restaurant_type=? or restaurant_type= ? or restaurant_type=?) and (food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or  food_category=? )";
+  const sqlSelectAttractions = "SELECT * FROM attractions WHERE city=?  AND mobility_level=? AND attraction_type=? or ? or ? ";
    
-    db.query(sqlSelectEating, [city, mobility,cuisine, restaurantType[0],restaurantType[1],restaurantType[2]], (err, results1) => {
+    db.query(sqlSelectEating, 
+      [city, mobility,cuisine[0],restaurantType[0],restaurantType[1],restaurantType[2],cuisine[0],cuisine[1],cuisine[2],cuisine[3],cuisine[4],cuisine[5],cuisine[6], cuisine[7] ], (err, results1) => {
       if (err) {
         throw err;
       }
   
       data.push(results1)
     });
-    db.query(sqlSelectAttractions, [city, attractionType, mobility], (err, results2) => {
+    db.query(sqlSelectAttractions, [city, mobility,attractionType[0],attractionType[1],attractionType[2]], (err, results2) => {
     if (err) {
       throw err;
     }
