@@ -16,13 +16,12 @@ db.configure({
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("Hell0");
 });
 
 app.get("/pathway", async (req, res) => {
-  var data = [];
-
   const city = req.query.city;
   const restaurantType = req.query.restaurantType;
   const attractionType = req.query.attractionType;
@@ -32,9 +31,9 @@ app.get("/pathway", async (req, res) => {
   console.log(req.query.restaurantType);
 
   const sqlSelectEating =
-  "SELECT * FROM eating_and_drinking WHERE city=? AND mobility_level=? and (restaurant_type=? or restaurant_type= ? or restaurant_type=?) and (food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or  food_category=? )";
-  const sqlSelectAttractions = 
-  "SELECT * FROM attractions WHERE city=?  AND mobility_level=? AND attraction_type=? or ? or ? ";
+    "SELECT * FROM eating_and_drinking WHERE city=? AND mobility_level=? and (restaurant_type=? or restaurant_type= ? or restaurant_type=?) and (food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or  food_category=? )";
+  const sqlSelectAttractions =
+    "SELECT * FROM attractions WHERE city=?  AND mobility_level=? AND attraction_type=? or ? or ? ";
 
   const [results1] = await db.query(sqlSelectEating, [
     city,
@@ -49,7 +48,7 @@ app.get("/pathway", async (req, res) => {
     cuisine[4],
     cuisine[5],
     cuisine[6],
-    cuisine[7]
+    cuisine[7],
   ]);
   const [results2] = await db.query(sqlSelectAttractions, [
     city,
@@ -57,9 +56,8 @@ app.get("/pathway", async (req, res) => {
     attractionType[0],
     attractionType[1],
     attractionType[2],
-   
   ]);
-  console.log(results2)
+  console.log(results2);
   const results = [...results1, ...results2];
   return res.status(200).json(results);
 });
