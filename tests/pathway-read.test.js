@@ -28,7 +28,7 @@ describe("read pathway", () => {
             city: "Birmingham",
             mobility: "Low",
             restaurantType: "Bar",
-            cuisine: "American/British"
+            cuisine: "American/British",
           })
           .send();
 
@@ -50,7 +50,7 @@ describe("read pathway", () => {
           .query({
             city: "Birmingham",
             mobility: "Low",
-            attractionType: "Museum"
+            attractionType: "Museum",
           })
           .send();
 
