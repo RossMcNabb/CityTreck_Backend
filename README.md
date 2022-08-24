@@ -13,7 +13,6 @@ $npm start to start the app in the browser
 # Dependencies
 
 - dotenv
-- axios
 - body-parser
 - cors
 - express
@@ -25,7 +24,6 @@ $npm start to start the app in the browser
 - supertest
 - chai
 - body-parser
-- axios
 - eslint
 - eslint-plugin-react
 - mocha

@@ -25,10 +25,10 @@ describe("read pathway", () => {
         const res = await request(app)
           .get("/pathway")
           .query({
-            city: "Birmingham",
-            mobility: "Low",
-            restaurantType: "Bar",
-            cuisine: "American/British",
+            city: "Liverpool",
+            mobility: "Minimum",
+            restaurantType: "Restaurant",
+            cuisine: "middleEastern",
           })
           .send();
 
@@ -48,9 +48,9 @@ describe("read pathway", () => {
         const res = await request(app)
           .get("/pathway")
           .query({
-            city: "Birmingham",
-            mobility: "Low",
-            attractionType: "Museum",
+            city: "Liverpool",
+            mobility: "Minimum",
+            attractionType: "landmarksMonuments",
           })
           .send();
 
