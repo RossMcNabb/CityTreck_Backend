@@ -4,11 +4,11 @@ const cors = require("cors");
 const app = express();
 const db = require("mysql-promise")();
 const path = require('path');
-const envFile = './.env';
-require('dotenv').config({
-  path: envFile,
-});
-const { DB_PASSWORD, DB_NAME, DB_USER, DB_HOST, DB_PORT } = process.env;
+// const envFile = './.env';
+// require('dotenv').config({
+//   path: envFile,
+// });
+const { DB_PASSWORD, DB_NAME, DB_USER, DB_HOST, DB_PORT,PORT } = process.env;
 
 
 
@@ -67,7 +67,7 @@ app.get("/pathway", async (req, res) => {
   return res.status(200).json(results);
 });
 
-app.listen(3001, () => {
+app.listen(PORT, () => {
   console.log("running on port 3001");
 });
 
