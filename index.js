@@ -8,16 +8,25 @@ const path = require('path');
 // require('dotenv').config({
 //   path: envFile,
 // });
-const { DB_PASSWORD, DB_NAME, DB_USER, DB_HOST, DB_PORT,PORT } = process.env;
+const { RDS_PASSWORD, RDS_DB_NAME, RDS_USERNAME, RDS_HOSTNAME, RDS_PORT,PORT } = process.env;
 
 
 
 db.configure({
-  host: DB_HOST,
-  user: DB_USER,
-  password: DB_PASSWORD,
-  port: DB_PORT,
-  database: DB_NAME,
+  host: RDS_HOSTNAME,
+  user: RDS_USERNAME,
+  password: RDS_PASSWORD,
+  port: RDS_PORT,
+  database: RDS_DB_NAME,
+});
+
+db.connect(function(err) {
+  if (err) {
+    console.error('Database connection failed: ' + err.stack);
+    return;
+  }
+
+  console.log('Connected to database.');
 });
 
 app.use(cors());
