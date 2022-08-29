@@ -21,6 +21,8 @@ db.configure({
 });
 
 
+
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
@@ -37,9 +39,9 @@ app.get("/pathway", async (req, res) => {
   const cuisine = req.query.cuisine;
 
   const sqlSelectEating =
-    "SELECT * FROM eating_and_drinking WHERE city=? AND mobility_level=? and (restaurant_type=? or restaurant_type= ? or restaurant_type=?) and (food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or  food_category=? )";
+    "SELECT * FROM final_project.eating_and_drinking WHERE city=? AND mobility_level=? and (restaurant_type=? or restaurant_type= ? or restaurant_type=?) and (food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or food_category=? or  food_category=? )";
   const sqlSelectAttractions =
-    "SELECT * FROM attractions WHERE city=?  AND mobility_level=? AND attraction_type=? or ? or ? ";
+    "SELECT * FROM final_project.attractions WHERE city=?  AND mobility_level=? AND attraction_type=? or ? or ? ";
 
   const [results1] = await db.query(sqlSelectEating, [
     city,
